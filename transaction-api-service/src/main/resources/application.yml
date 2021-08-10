@@ -1,0 +1,37 @@
+server:
+  port: 3031
+spring:
+  application:
+    name: transaction-api-service
+  kafka:
+    bootstrap-servers: localhost:19092
+  cloud:
+    function:
+      definition: cardSupplier|basketSupplier|paymentSupplier
+    stream:
+      bindings:
+        cardSupplier-out-0:
+          destination: card-events
+        basketSupplier-out-0:
+          destination: basket-events
+        paymentSupplier-out-0:
+          destination: payment-events
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driverClassName: org.h2.Driver
+    username: sa
+    password: password
+    hikari:
+      connection-timeout: 2000
+      initialization-fail-timeout: 0
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    show_sql: true
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        enable_lazy_load_no_trans: true
+    hibernate:
+      ddl-auto: create-drop
+    open-in-view: false
